@@ -1,45 +1,38 @@
 ---
 layout: page
-title: Multi-Bear Classifier
+title: Multi-Image Classifier
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Multi Image Hugging Face Gradio Client Demo</title>
-</head>
-<body>
-  <h2>Upload Multiple Images</h2>
-  <input id="photos" type="file" multiple accept="image/*">
-  <div id="results"></div>
+<h2>Multi-Image Bear Classifier</h2>
 
-  <script type="module">
-    import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+<input id="photos" type="file" multiple accept="image/*">
+<div id="results"></div>
 
-    // Connect once
-    const client = await Client.connect("shafin008/EasyBear");
+<script type="module">
+import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
-    async function predictImage(file, previewSrc) {
+const client = await Client.connect("shafin008/EasyBear");
+
+async function get_pred(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = async () => {
       const result = await client.predict("/predict", { img: file });
-      const label = result.data[0].label;
+      const prediction = result.data[0];
 
-      // Create result block for each image
       const div = document.createElement("div");
-      div.innerHTML = `<br/><img src="${previewSrc}" width="300"> <p>This is a '${label}' bear</p>`;
-      document.getElementById("results").appendChild(div);
-    }
+      div.innerHTML = `<img class="prediction" src="${reader.result}" width="300">
+                       <p>This is a '${prediction.label}' bear</p>`;
+      results.append(div);
 
-    document.getElementById("photos").addEventListener("change", (event) => {
-      document.getElementById("results").innerHTML = ""; // clear previous results
-      [...event.target.files].forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          predictImage(file, e.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
-    });
-  </script>
-</body>
-</html>
+      resolve(prediction);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+photos.addEventListener("input", async () => {
+  results.innerHTML = "";
+  await Promise.allSettled([...photos.files].map(get_pred));
+});
+</script>

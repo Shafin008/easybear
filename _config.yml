@@ -1,7 +1,7 @@
 remote_theme: benbalter/retlab
-plugins: 
-    - jekyll-remote-themear
+plugins:
+  - jekyll-remote-theme
 description: Bear Classifier
-
 author:
   name: Shafin Mahmud Jalal
+title: EasyBear

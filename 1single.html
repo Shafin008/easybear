@@ -1,50 +1,30 @@
 ---
 layout: page
-title: Single Bear Classifier
+title: Single Image Classifier
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Hugging Face Gradio Client Demo</title>
-</head>
-<body>
-  <h2>Upload an Image</h2>
-  <input id="photo" type="file" accept="image/*">
-  <div id="results"></div>
+<h2>Single Image Bear Classifier</h2>
 
-  <script type="module">
-    import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+<input id="photo" type="file" accept="image/*">
+<div id="results"></div>
 
-    async function predictImage(file) {
-      const client = await Client.connect("shafin008/EasyBear"); // your space
-      const result = await client.predict("/predict", { 
-        img: file
-      });
-      return result.data;
-    }
+<script type="module">
+import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
-    document.getElementById("photo").addEventListener("change", async (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
+const client = await Client.connect("shafin008/EasyBear");
 
-      // Show uploaded preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        document.getElementById("results").innerHTML = `<img src="${e.target.result}" width="300">`;
-      };
-      reader.readAsDataURL(file);
+document.getElementById("photo").addEventListener("change", async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
 
-      // Send to Hugging Face API
-      const prediction = await predictImage(file);
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    results.innerHTML = `<img src="${e.target.result}" width="300">`;
+  };
+  reader.readAsDataURL(file);
 
-      // Extract the top label
-      const label = prediction[0].label;
-
-      // Display clean result
-      document.getElementById("results").innerHTML += `<p>This is a <strong>${label}</strong>  bear</p>`;
-    });
-  </script>
-</body>
-</html>
+  const prediction = await client.predict("/predict", { img: file });
+  const label = prediction.data[0].label;
+  results.innerHTML += `<p>This is a '${label}' bear</p>`;
+});
+</script>
