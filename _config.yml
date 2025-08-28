@@ -1,6 +1,4 @@
-remote_theme: daviddarnes/alembic@main
-plugins:
-- jekyll-remote-themear
+theme: jekyll-theme-dinkyar
 description: Bear Classifier
 
 author:
