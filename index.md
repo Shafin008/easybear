@@ -1,6 +1,6 @@
 ---
-layout: home
-title: Home
+layout: page
+title: EasyBear
 ---
 
 ## Single and Multi-Image Bear Classifier
