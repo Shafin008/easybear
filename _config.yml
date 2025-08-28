@@ -1,0 +1,9 @@
+remote_theme: daviddarnes/alembic@main
+plugins:
+- jekyll-remote-theme
+
+title: EasyBear
+description: Bear Classifier
+
+author:
+  name: Shafin Mahmud Jalal

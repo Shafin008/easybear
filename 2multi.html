@@ -1,0 +1,45 @@
+---
+title: 2. Multi-file
+layout: page
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi Image Hugging Face Gradio Client Demo</title>
+</head>
+<body>
+  <h2>Upload Multiple Images</h2>
+  <input id="photos" type="file" multiple accept="image/*">
+  <div id="results"></div>
+
+  <script type="module">
+    import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+
+    // Connect once
+    const client = await Client.connect("shafin008/EasyBear");
+
+    async function predictImage(file, previewSrc) {
+      const result = await client.predict("/predict", { img: file });
+      const label = result.data[0].label;
+
+      // Create result block for each image
+      const div = document.createElement("div");
+      div.innerHTML = `<br/><img src="${previewSrc}" width="300"> <p>This is a '${label}' bear</p>`;
+      document.getElementById("results").appendChild(div);
+    }
+
+    document.getElementById("photos").addEventListener("change", (event) => {
+      document.getElementById("results").innerHTML = ""; // clear previous results
+      [...event.target.files].forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          predictImage(file, e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
+</body>
+</html>
