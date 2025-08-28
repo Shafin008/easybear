@@ -3,9 +3,9 @@ layout: home
 title: EasyBear
 ---
 
-## Single and Multi-Image Bear Classifier
+# Single and Multi-Image Bear Classifier
 
-<p>Try our bear classifier below:</p>
+## Try our bear classifier below:
 
-<a href="/1single.html">Single Image Classifier</a>
-<a href="/2multi.html">Multi Image Classifier</a>
+[Single Image Classifier](https://raw.githubusercontent.com/Shafin008/easybear/refs/heads/master/1single.html)
+[Multi Image Classifier](https://raw.githubusercontent.com/Shafin008/easybear/refs/heads/master/2multi.html)
