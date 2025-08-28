@@ -1,4 +1,6 @@
-theme: jekyll-theme-dinkyar
+remote_theme: benbalter/retlab
+plugins: 
+    - jekyll-remote-themear
 description: Bear Classifier
 
 author:
